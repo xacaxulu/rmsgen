@@ -9,8 +9,12 @@ module Rmsgen
     def run!
       @raw_split.each_with_index do |part, i|
         if part.include?('http')
-          text = ask_for_text(part).chomp
-          @new[i-1].gsub!(text, %{<a href='#{part}'>#{text}</a>})
+          if parent = @new[i-1]
+            puts parent
+            puts
+            text = ask_for_text(part).chomp
+            parent.gsub!(text, %{<a href='#{part}'>#{text}</a>})
+          end
         else
           @new << part
         end
@@ -23,7 +27,7 @@ module Rmsgen
     end
 
     def to_s
-      @new
+      @new.join("\n\n")
     end
   end
 end

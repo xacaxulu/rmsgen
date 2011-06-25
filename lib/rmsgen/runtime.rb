@@ -2,22 +2,22 @@ module Rmsgen
   class Runtime
     def initialize(config)
       @config = config
+      @email_dir = @config["email_dir"]
       run!
     end
 
     def run!
       process_notes do |note|
-        note.encode
         note.compress
         note.inquire
-        note.write
+        puts note.to_html
       end
     end
 
     private
 
     def process_notes
-      Dir["#{@config["email_dir"]}/*"].each do |note|
+      Dir["#{@email_dir}/*"].each do |note|
         yield Polnote.new(File.read(note))
       end
     end

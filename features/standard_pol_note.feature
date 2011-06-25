@@ -10,9 +10,9 @@ Feature: Managing a standard polnote
     Given I cd to "polnotes"
     And a file named "polnote" with:
     """
-    30 Saudi women held their drive-in, but the police responded by not taking notice.
+    A story about something.
 
-    http://www.guardian.co.uk/world/2011/jun/17/saudi-arabia-women-drivers-protest
+    http://test.com
     """
     And I cd to ".."
     Given a file named "config.yml" with:
@@ -20,13 +20,16 @@ Feature: Managing a standard polnote
     email_dir: polnotes
     """
     Given I run `rmsgen -c config.yml` interactively
-    And I type "women held their"
+    And I type "something"
+
     Then the output should contain:
     """ 
+    A story about something.
+
     What is the text?
     """
 
     Then the output should contain:
     """
-    30 Saudi <a href='http://www.guardian.co.uk/world/2011/jun/17/saudi-arabia-women-drivers-protest'>women held their</a> drive-in, but the police responded by not taking notice.
+    A story about <a href='http://test.com'>something</a>.
     """

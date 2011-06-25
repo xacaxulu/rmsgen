@@ -1,24 +1,21 @@
 module Rmsgen
   class Compresser
     def initialize(raw)
-      @raw_split = raw.split("\n\n")
-      @inf = @raw_split.join("\n\n")
-      run!
-    end
-
-    def run!
+      @raw = raw
+      @split = raw.split("\n\n")
       rm_header
       rm_footer
     end
 
     def rm_header
+      @split.delete_at(0) if @split[0] =~ /Return-Path:/
     end
 
     def rm_footer
     end
 
-    def to_s
-      @raw_split.join("\n\n")    
+    def body
+      @split.join("\n\n")
     end
   end
 end

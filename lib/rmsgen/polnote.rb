@@ -5,11 +5,11 @@ module Rmsgen
 
     def initialize(raw)
       @raw = raw
-      @body = raw
+      @body = raw.dup
     end
 
     def compress
-      @body = Compresser.new(@body).to_s
+      @body = Compresser.new(@raw).body
     end
 
     def encode
@@ -23,7 +23,11 @@ module Rmsgen
     end
 
     def write
-      $stdout.puts @body
+      puts @body
+    end
+
+    def to_html
+      @body.split("\n\n").map { |x| "<p>#{x}</p>" }.join("\n")
     end
   end
 end
