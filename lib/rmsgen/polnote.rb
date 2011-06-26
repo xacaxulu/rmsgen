@@ -16,6 +16,7 @@ module Rmsgen
     end
 
     def titleize
+      @title = Titleizer.new(@body).to_html
     end
 
     def inquire
@@ -27,6 +28,7 @@ module Rmsgen
     end
 
     def to_html
+      @title + "\n" +
       @body.split("\n\n").map { |x| "<p>#{x}</p>" }.join("\n")
     end
   end

@@ -9,7 +9,11 @@ module Rmsgen
     def run!
       process_notes do |note|
         note.compress
+        puts note.body
+        puts
+        note.titleize
         note.inquire
+        puts
         puts note.to_html
       end
     end

@@ -3,7 +3,7 @@ Feature: Generate polnote from full email
   As a helper
   I want a pol note from a full raw email
 
-  Scenario: 
+  Scenario: Raw email is stripped to just the body
     Given a directory named "polnotes"
     Given I cd to "polnotes"
     And a file named "polnote" with:
@@ -50,6 +50,7 @@ Feature: Generate polnote from full email
     email_dir: polnotes
     """
     Given I run `rmsgen -c config.yml` interactively
+    And I type "A title"
     And I type "Text"
     Then the output should contain:
     """ 
@@ -60,8 +61,7 @@ Feature: Generate polnote from full email
 
     And the output should contain:
     """
-    <p><a href='http://test.com'>Text</a> Here.</p>
-    <p>more text.</p>
+    <p><a href='http://test.com'>Text</a> Here.</p>\n<p>more text.</p>
     """
 
     And the output should not contain:
@@ -87,3 +87,16 @@ Feature: Generate polnote from full email
     Content-Length: 567
     """
 
+    And the output should not contain:
+
+    """
+    -- 
+    Dr Richard Stallman
+    President, Free Software Foundation
+    51 Franklin St
+    Boston MA 02110
+    USA
+    www.fsf.org, www.gnu.org
+    Skype: No way! That's nonfree (freedom-denying) software.
+    Use free telephony http://directory.fsf.org/category/tel/
+    """

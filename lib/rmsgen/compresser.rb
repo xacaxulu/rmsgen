@@ -12,6 +12,7 @@ module Rmsgen
     end
 
     def rm_footer
+      @split.delete_at(-1) if @split[-1] =~ /Dr Richard Stallman/
     end
 
     def body

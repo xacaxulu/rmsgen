@@ -20,10 +20,17 @@ Feature: Managing a standard polnote
     email_dir: polnotes
     """
     Given I run `rmsgen -c config.yml` interactively
+    And I type "The Title"
     And I type "something"
 
     Then the output should contain:
     """ 
+    A story about something.
+
+    http://test.com
+   
+    Type title:
+
     A story about something.
 
     What is the text?
@@ -31,5 +38,6 @@ Feature: Managing a standard polnote
 
     Then the output should contain:
     """
-    A story about <a href='http://test.com'>something</a>.
+    <p><li><a name=\"02_April_2011_(The_Title)\" />02 April 2011 (<a class=\"titlelink\" href=\"#02_April_2011_(The_Title)\">The Title</a>)</p>
+    <p>A story about <a href='http://test.com'>something</a>.</p>
     """
