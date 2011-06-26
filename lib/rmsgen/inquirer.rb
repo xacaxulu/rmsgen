@@ -1,20 +1,22 @@
 module Rmsgen
   class Inquirer
-    def initialize(raw)
+    def initialize(raw, stdout=$stdout)
       @raw_split = raw.split("\n\n")
+      @stdout = stdout
       @new = []
       run!
     end
 
     def run!
       @raw_split.each_with_index do |part, i|
+        last = @new[-1]
         if part.include?('http')
-          puts @new[-1]
-          puts
-          text = ask_for_text(part).chomp
-          @new[-1].gsub!(text, %{<a href='#{part}'>#{text}</a>})
+          @stdout.puts last
+          @stdout.puts
+          text = ask_for_text(part)
+          last.gsub!(text, %{<a href='#{part}'>#{text}</a>})
         elsif part =~ /^   /
-          @new[-1] << " #{part.strip}\n\n"
+          last << " #{part.strip}\n\n"
         else
           @new << part
         end
@@ -22,8 +24,8 @@ module Rmsgen
     end
 
     def ask_for_text(part)
-      puts "What is the text?" 
-      $stdin.gets
+      @stdout.puts "What is the text?" 
+      $stdin.gets.chomp
     end
 
     def to_s

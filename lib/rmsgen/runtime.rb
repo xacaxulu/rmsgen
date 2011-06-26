@@ -3,6 +3,7 @@ module Rmsgen
     def initialize(config)
       @config = config
       @email_dir = @config["email_dir"]
+      @output = @config["output_file"]
       run!
     end
 
@@ -14,12 +15,21 @@ module Rmsgen
         note.titleize
         note.inquire
         puts
-        puts note.to_html
+        if output
+          output.puts note.to_html
+          output.close
+        else
+          puts note.to_html
+          puts
+        end
       end
     end
 
     private
 
+    def output
+      @output && @outf = File.open(@output, 'a')
+    end
     def process_notes
       Dir["#{@email_dir}/*"].each do |note|
         yield Polnote.new(File.read(note))

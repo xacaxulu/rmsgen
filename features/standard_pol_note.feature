@@ -5,7 +5,7 @@ Feature: Managing a standard polnote
   As a user
   I want to run polnote on a standard polnote
 
-  Scenario: An easy polnote 
+  Scenario: A standard polnote 
     Given a directory named "polnotes"
     Given I cd to "polnotes"
     And a file named "polnote" with:
