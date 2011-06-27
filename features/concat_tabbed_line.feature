@@ -22,8 +22,8 @@ Feature: Concat tabbed line
     email_dir: polnotes
     """
 
-    And I run "rmsgen -c config.yml" interactively
-    And I type "The title"
+    And I run `rmsgen -c config.yml` interactively
+    And I type "The Title"
 
     And I type "Some"
     Then the output should contain:

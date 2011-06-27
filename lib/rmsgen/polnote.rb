@@ -23,10 +23,6 @@ module Rmsgen
       @body = Inquirer.new(@body).to_s
     end
 
-    def write
-      puts @body
-    end
-
     def to_html
       @title + "\n" +
       @body.split("\n\n").map { |x| "<p>#{x}</p>" }.join("\n")
