@@ -15,7 +15,7 @@ module Rmsgen
         note.titleize
         note.inquire
         puts
-        if output
+        if @output && output = File.open(@output, 'a')
           output.puts note.to_html
           output.close
         else
@@ -28,8 +28,8 @@ module Rmsgen
     private
 
     def output
-      @output && @outf = File.open(@output, 'a')
     end
+
     def process_notes
       Dir["#{@email_dir}/*"].each do |note|
         yield Polnote.new(File.read(note))

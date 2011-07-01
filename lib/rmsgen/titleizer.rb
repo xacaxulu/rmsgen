@@ -2,6 +2,9 @@ module Rmsgen
   class Titleizer
     def initialize(body)
       @body = body
+      @tday = Date.today
+      @tdayf = @tday.strftime('%d %B %Y')
+      @tdayu = @tdayf.gsub(' ', '_')
       run!
     end
 
@@ -20,7 +23,7 @@ module Rmsgen
     end
 
     def to_html
-    "<p><li><a name=\"02_April_2011_(#{utitle})\" />02 April 2011 (<a class=\"titlelink\" href=\"#02_April_2011_(#{utitle})\">#{@title}</a>)</p>"
+    "<p><li><a name='#{@tdayu}_(#{utitle})' />#{@tdayf} (<a class='titlelink' href='##{@tdayu}_(#{utitle})'>#{@title}</a>)</p>"
     end
   end
 end

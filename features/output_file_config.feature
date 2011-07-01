@@ -46,10 +46,14 @@ Feature: Output file for polnotes to be written to
     And I type "Turtle Story"
     And I type "turtles"
     When I run `cat output.html`
+    Then I should see a title for "The Title"
+    And I should see a title for "Turtle Story"
     Then the output should contain:
     """
-    <p><li><a name="02_April_2011_(The_Title)" />02 April 2011 (<a class="titlelink" href="#02_April_2011_(The_Title)">The Title</a>)</p>
     <p>A story about <a href='http://test.com'>something</a>.</p>
-    <p><li><a name="02_April_2011_(Turtle_Story)" />02 April 2011 (<a class="titlelink" href="#02_April_2011_(Turtle_Story)">Turtle Story</a>)</p>
+    """
+
+    Then the output should contain:
+    """
     <p>I like <a href='http://'>turtles</a>.</p>
     """

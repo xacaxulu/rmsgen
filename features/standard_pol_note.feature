@@ -36,8 +36,8 @@ Feature: Managing a standard polnote
     What is the text?
     """
 
+    Then I should see a title for "The Title"
     Then the output should contain:
     """
-    <p><li><a name=\"02_April_2011_(The_Title)\" />02 April 2011 (<a class=\"titlelink\" href=\"#02_April_2011_(The_Title)\">The Title</a>)</p>
     <p>A story about <a href='http://test.com'>something</a>.</p>
     """

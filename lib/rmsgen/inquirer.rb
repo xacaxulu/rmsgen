@@ -15,6 +15,11 @@ module Rmsgen
           @stdout.puts
           text = ask_for_text(part)
           last.gsub!(text, %{<a href='#{part}'>#{text}</a>})
+        elsif part =~ /\[Link/
+          prompt = part[1..-2] + ":\n"
+          @stdout.puts prompt
+          @stdout.puts
+          text = ask_for_text(prompt)
         elsif part =~ /^   /
           last << " #{part.strip}\n\n"
         else
