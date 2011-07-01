@@ -31,6 +31,7 @@ Feature: Managing a standard polnote
    
     Type title:
 
+
     A story about something.
 
     What is the text?

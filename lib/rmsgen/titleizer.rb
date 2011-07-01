@@ -16,6 +16,7 @@ module Rmsgen
       puts "Type title:"
       puts
       @title = $stdin.gets.chomp
+      puts
     end
 
     def utitle

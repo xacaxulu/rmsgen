@@ -7,7 +7,7 @@ describe Rmsgen::Inquirer do
   let(:stdout) { StringIO.new }
 
   describe "inquires about a note which is indented" do
-    let(:note) { "foo\n\nhttp://\n\n   bar" }
+    let(:note) { Rmsgen::Polnote.new("foo\n\nhttp://\n\n   bar") }
 
     subject { Rmsgen::Inquirer.new(note, stdout) }
 
@@ -22,7 +22,7 @@ describe Rmsgen::Inquirer do
   end
 
   describe "it inquires about each link in a note" do
-    let(:note) { "foo\n\nhttp://\n\nbar\n\nhttp://" }
+    let(:note) { Rmsgen::Polnote.new("foo\n\nhttp://\n\nbar\n\nhttp://") }
     subject { Rmsgen::Inquirer.new(note, stdout) }
 
     before do
@@ -32,6 +32,21 @@ describe Rmsgen::Inquirer do
     it "inquires about each url" do
       exp = "<a href='http://'>foo</a>\n\n<a href='http://'>bar</a>"
       subject.to_s.should == exp 
+    end
+  end
+
+  describe "inquiring about a duration" do
+    let(:note) { Rmsgen::Polnote.new("For one week:\n\nUrgent: blah blah blah") }
+
+    subject { Rmsgen::Inquirer.new(note, stdout) }
+
+    before do 
+    end
+
+    it "asks for the end date of the duration" do
+      $stdin = FakeGetMany.new("Title", "July 1")
+      subject.run!
+      note.expires_on.should == "July 1"
     end
   end
 end

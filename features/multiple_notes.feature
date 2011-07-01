@@ -39,6 +39,7 @@ Feature: Enumerating notes
    
     Type title:
 
+
     A story about something.
 
     What is the text?
@@ -51,6 +52,7 @@ Feature: Enumerating notes
     http://test.com
    
     Type title:
+
 
     I like turtles.
 
