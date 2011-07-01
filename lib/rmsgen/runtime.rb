@@ -2,8 +2,8 @@ module Rmsgen
   class Runtime
     def initialize(config)
       @config = config
-      raise "Ensure you have populated a config file" unless @config
       @email_dir = @config["email_dir"]
+      raise "Ensure you have populated a config file" unless @config
       @output = @config["output_file"]
       run!
     end

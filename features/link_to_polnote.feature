@@ -14,11 +14,13 @@ Feature: Detect link to polnotes
 
     More text
     """
-    And I cd to ".."
+
+    Given I cd to ".."
     Given a file named "config.yml" with:
     """
     email_dir: polnotes
     """
+
     Given I run `rmsgen -c config.yml` interactively
     And I type "The Title"
     And I type "http://"

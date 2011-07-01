@@ -10,6 +10,7 @@ module Rmsgen
       def initialize(config, args)
         @config = config
         @args = args
+        File.open(config["email_dir"])
       end
 
       def execute!
