@@ -11,6 +11,8 @@ Feature: Detect link to polnotes
     A story about something.
 
     [Link to the pol note]
+
+    More text
     """
     And I cd to ".."
     Given a file named "config.yml" with:
@@ -20,9 +22,19 @@ Feature: Detect link to polnotes
     Given I run `rmsgen -c config.yml` interactively
     And I type "The Title"
     And I type "http://"
+    And I type "about"
 
     Then the output should contain:
     """
     Link to the pol note:
 
+    """
+    And the output should contain:
+    """
+    <p>A story <a href='http://'>about</a> something.</p>
+    """
+
+    And the output should contain:
+    """
+    <p>More text</p>
     """

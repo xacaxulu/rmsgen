@@ -6,6 +6,7 @@ module Rmsgen
     def initialize(raw)
       @raw = raw
       @body = raw.dup
+      @parts = PartGroup.new(@body.dup)
     end
 
     def compress

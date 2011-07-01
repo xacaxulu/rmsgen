@@ -6,8 +6,9 @@ require 'stringio'
 describe Rmsgen::Inquirer do
   let(:stdout) { StringIO.new }
 
-  describe "inquires about a note with indented" do
-    let(:note) { "foo\n\nhttp://\n\n   bar"}
+  describe "inquires about a note which is indented" do
+    let(:note) { "foo\n\nhttp://\n\n   bar" }
+
     subject { Rmsgen::Inquirer.new(note, stdout) }
 
     before do

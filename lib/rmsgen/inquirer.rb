@@ -1,25 +1,40 @@
 module Rmsgen
   class Inquirer
     def initialize(raw, stdout=$stdout)
-      @raw_split = raw.split("\n\n")
+      @parts = PartGroup.new(raw)
       @stdout = stdout
       @new = []
       run!
     end
 
+    def last
+      @new[-1]
+    end
+
+    def put_part(part)
+      @stdout.puts last
+      @stdout.puts
+    end
+
+    def linkify(part)
+      put_part(part)
+      text = ask_for_text(part)
+      last.gsub!(text, %{<a href='#{part}'>#{text}</a>})
+    end
+
+    def prompt_for_polnote_link(part)
+      prompt = part[1..-2] + ":\n"
+      @stdout.puts prompt
+      @stdout.puts
+      ask_for_text(prompt)
+    end
+
     def run!
-      @raw_split.each_with_index do |part, i|
-        last = @new[-1]
+      @parts.each_with_index do |part, i|
         if part.include?('http')
-          @stdout.puts last
-          @stdout.puts
-          text = ask_for_text(part)
-          last.gsub!(text, %{<a href='#{part}'>#{text}</a>})
+          linkify(part)
         elsif part =~ /\[Link/
-          prompt = part[1..-2] + ":\n"
-          @stdout.puts prompt
-          @stdout.puts
-          text = ask_for_text(prompt)
+          @parts.insert(i+1, prompt_for_polnote_link(part))
         elsif part =~ /^   /
           last << " #{part.strip}\n\n"
         else

@@ -1,8 +1,7 @@
 # rmsgen
 
 ## Synopsis 
-This is a set of scripts useful for the generation of political notes. `rmsgen` will only be useful
-if you are a voluntary contributor for http://stallman.org
+This is a set of scripts useful for the generation of political notes. 
 
 ## Usage
 
@@ -13,11 +12,13 @@ if you are a voluntary contributor for http://stallman.org
     # add the mail dir to the config.yml file
     mail_dir: /home/lacus/Mail/Stallman
 
+    # output file for polnotes
+    output_file: /home/lacus/polnotes.html
+
 #### Config Options
 
      mail_dir: the local directory that stallman emails are sent to.
-     polnote_file: the file that the completed polnotes are written to. [Default: ~/.rmsgen/polnotes.html]
-     urgent_file: the file that urgent polnotes are written to. [Default: ~/.rmsgen/urgent.html]
+     output_file: the file to output polnotes
 
 ### Run `rmsgen` to iterate all messages in inbox
 

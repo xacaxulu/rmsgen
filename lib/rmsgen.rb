@@ -1,5 +1,8 @@
 require 'rmsgen/runtime'
+
 require 'rmsgen/polnote'
+require 'rmsgen/part_group'
+
 require 'rmsgen/compresser'
 require 'rmsgen/inquirer'
 require 'rmsgen/titleizer'
