@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__) + '/../lib') unless $:.include?(File.dirname(_
 require 'rmsgen/cli/main'
 
 
-config_file = ARGV[1]
+config_file = ARGV[1] || "#{ENV['HOME']}/.rmsgen/config.yml"
 config = YAML::load_file(config_file)
 
 Rmsgen::Cli::Main.execute(config, ARGV.dup)

@@ -14,13 +14,13 @@ module Rmsgen
       @new[-1]
     end
 
-    def put_part(part)
+    def put_last
       @stdout.puts last
       @stdout.puts
     end
 
     def linkify(part)
-      put_part(part)
+      put_last
       text = ask_for_text(part)
       merge_link(text, part, last)
     end
@@ -37,7 +37,7 @@ module Rmsgen
     end
 
     def duration_prompt(part)
-      prompt = "What is this date: #{part}? "
+      prompt = "What day does it expire? ex) 08 July 2011:\n "
       @stdout.puts prompt
       input = $stdin.gets.chomp
       @stdout.puts

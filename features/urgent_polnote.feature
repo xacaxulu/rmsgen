@@ -31,3 +31,8 @@ Feature: Urgent Polnotes
     <p>US citizens: <a href='http://'>tell</a> Obama to stand firm against Republican demands for raising the debt ceiling.</p>
     <p>Once in a while, when enough people demand it, Obama does what he ought to do.</p>
     """
+
+    And the output should contain:
+    """
+    What day does it expire? 
+    """
