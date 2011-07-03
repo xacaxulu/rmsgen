@@ -18,7 +18,6 @@ module Rmsgen
         puts
         if @output && output = File.open(@output, 'a')
           output.puts note.to_html
-          output.puts
           output.close
         else
           puts note.to_html
