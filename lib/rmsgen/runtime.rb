@@ -11,7 +11,6 @@ module Rmsgen
     def run!
       process_notes do |note|
         system('clear')
-        note.compress
         puts note.body
         puts
         note.titleize

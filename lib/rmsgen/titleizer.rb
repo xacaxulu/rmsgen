@@ -1,6 +1,9 @@
 module Rmsgen
   class Titleizer
     DATE_FORMAT = ('%d %B %Y')
+    TEMPLATE = Rmsgen.template_path + '/title.erb'
+
+    attr_reader :title
 
     def initialize(polnote)
       @body = polnote.body
@@ -27,12 +30,13 @@ module Rmsgen
     def today_underscore
       today_format.gsub(' ', '_')
     end
+
     def title_underscore
       @title.gsub(' ', '_')
     end
 
     def body
-      "<p><li><a name='#{today_underscore}_(#{title_underscore})' />#{today_format} (<a class='titlelink' href='##{today_underscore}_(#{title_underscore})'>#{@title}</a>)</p>"
+      ERB.new(File.read(TEMPLATE)).result(binding)
     end
   end
 end
