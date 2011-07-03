@@ -15,24 +15,25 @@ Feature: Urgent Polnotes
     email_dir: polnotes
     """
     Given I run `rmsgen -c config.yml` interactively
-    And I type "Urgent Note"
+    When I type "Urgent Note"
     And I type "01 July 2011"
     And I type "tell"
+
+    Then I should see a title for "Urgent Note"
+    And the output should contain:
+    """
+    What day does it expire? 
+    """
+
+    And the output should contain:
+    """
+    <!-- Expires 01 July 2011 -->
+    """
 
     Then the output should not contain:
     """
     <p>For one week:</p>
     """
 
-    And the output should contain:
-    """
-    <!-- Expires 01 July 2011 -->
-    <p><li><a name='01_July_2011_(Urgent_Note)' />01 July 2011 (<a class='titlelink' href='#01_July_2011_(Urgent_Note)'>Urgent Note</a>)</p>
-    <p>US citizens: <a href='http://'>tell</a> Obama to stand firm against Republican demands for raising the debt ceiling.</p>
-    <p>Once in a while, when enough people demand it, Obama does what he ought to do.</p>
-    """
 
-    And the output should contain:
-    """
-    What day does it expire? 
-    """
+
