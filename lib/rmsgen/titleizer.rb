@@ -1,30 +1,38 @@
 module Rmsgen
   class Titleizer
-    def initialize(body)
-      @body = body
-      @tday = Date.today
-      @tdayf = @tday.strftime('%d %B %Y')
-      @tdayu = @tdayf.gsub(' ', '_')
+    DATE_FORMAT = ('%d %B %Y')
+
+    def initialize(polnote)
+      @body = polnote.body
+      @script = Script.new($stdout)
       run!
     end
 
     def run!
-      get_title
+      @title = @script.prompt_for_title
+      body
     end
 
-    def get_title
-      puts "Type title:"
-      puts
-      @title = $stdin.gets.chomp
-      puts
+    def today(format=nil)
+      @tday ||= Date.today
+      if format
+        @tday.strftime(format) 
+      end
     end
 
-    def utitle
+    def today_format
+      today(DATE_FORMAT)
+    end
+
+    def today_underscore
+      today_format.gsub(' ', '_')
+    end
+    def title_underscore
       @title.gsub(' ', '_')
     end
 
-    def to_html
-    "<p><li><a name='#{@tdayu}_(#{utitle})' />#{@tdayf} (<a class='titlelink' href='##{@tdayu}_(#{utitle})'>#{@title}</a>)</p>"
+    def body
+      "<p><li><a name='#{today_underscore}_(#{title_underscore})' />#{today_format} (<a class='titlelink' href='##{today_underscore}_(#{title_underscore})'>#{@title}</a>)</p>"
     end
   end
 end

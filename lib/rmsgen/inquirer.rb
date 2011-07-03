@@ -5,51 +5,18 @@ module Rmsgen
     URL_MATCHER = /^http/
     DURATION_MATCHER = /^For.*week.*$/
 
-    class Script
-      EXPIRY = "What day does it expire? ex) 08 July 2011:\n "
-      TEXT   = "What is the text?"
-
-      def initialize(stdout=$stdout)
-        @stdout = stdout
-      end
-
-      def prompt_for_expiry_date
-        prompt(EXPIRY)
-      end
-
-      def prompt_for_text
-       prompt "What is the text?" 
-      end
-
-      def prompt_for_polnote_link(part)
-        label = part[1..-2] + ":\n"
-        @stdout.puts label
-        @stdout.puts
-        prompt(label)
-      end
-
-      def prompt(label)
-        @stdout.puts label
-        @stdout.puts
-        input = $stdin.gets.chomp
-        @stdout.puts
-        input
-      end
-    end
-
     def initialize(polnote, stdout=$stdout)
-      @polnote = polnote
-      @parts = @polnote.parts
-      @stdout = stdout
       @inquiries = []
-      @script = Script.new(stdout)
+      @polnote   = polnote
+      @parts     = @polnote.parts
+      @script    = Script.new(stdout)
       run!
     end
 
     def run!
       @parts.each do |part|
         if part =~ DURATION_MATCHER
-          @polnote.expires_on = @script.prompt_for_expiry_date
+          update_expiry
         elsif part =~ URL_MATCHER
           linkify(part)
         elsif part =~ NOTE_MATCHER
@@ -62,29 +29,22 @@ module Rmsgen
       end
     end
 
+    def update_expiry
+      @polnote.expires_on = @script.prompt_for_expiry_date
+    end
+
     def linkify(part)
-      put_last
-      text = @script.prompt_for_text
-      merge_link(text, part, last)
+      @script.say(@inquiries.last)
+      merge_link(@script.prompt_for_text, part, @inquiries.last)
     end
 
     def polnotify(part)
       link = @script.prompt_for_polnote_link(part)
-      text = @script.prompt_for_text
-      @inquiries[-1] = merge_link(text, link, last)
+      merge_link(@script.prompt_for_text, link, @inquiries.last)
     end
 
     def append(part)
-      last << " #{part.strip}\n\n"
-    end
-
-    def put_last
-      @stdout.puts last
-      @stdout.puts
-    end
-
-    def last
-      @inquiries.last
+      @inquiries.last << " #{part.strip}\n\n"
     end
 
     def inquired_about(part)
@@ -95,7 +55,7 @@ module Rmsgen
       src.gsub!(text, %{<a href='#{link}'>#{text}</a>})
     end
 
-    def to_s
+    def body
       @inquiries.join("\n\n")
     end
   end

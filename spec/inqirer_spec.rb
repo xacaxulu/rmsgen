@@ -17,7 +17,7 @@ describe Rmsgen::Inquirer do
 
     it "merges the url" do
       exp = "<a href='http://'>foo</a> bar\n\n"
-      subject.to_s.should == exp
+      subject.body.should == exp
     end
   end
 
@@ -31,7 +31,7 @@ describe Rmsgen::Inquirer do
 
     it "inquires about each url" do
       exp = "<a href='http://'>foo</a>\n\n<a href='http://'>bar</a>"
-      subject.to_s.should == exp 
+      subject.body.should == exp 
     end
   end
 

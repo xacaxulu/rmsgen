@@ -30,9 +30,6 @@ module Rmsgen
 
     private
 
-    def output
-    end
-
     def process_notes
       Dir["#{@email_dir}/*"].each do |note|
         yield Polnote.new(File.read(note))

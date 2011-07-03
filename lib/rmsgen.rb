@@ -4,6 +4,7 @@ require 'rmsgen/polnote'
 require 'rmsgen/part_group'
 
 require 'rmsgen/compresser'
+require 'rmsgen/script'
 require 'rmsgen/inquirer'
 require 'rmsgen/titleizer'
 require 'rmsgen/url_merger'

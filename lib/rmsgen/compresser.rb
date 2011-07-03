@@ -3,7 +3,10 @@ module Rmsgen
     def initialize(polnote)
       @polnote = polnote
       @parts = polnote.parts
+      run!
+    end
 
+    def run!
       rm_header
       rm_footer
       single_line_paragraphs
