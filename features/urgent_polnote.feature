@@ -4,7 +4,6 @@ Feature: Urgent Polnotes
   I want to see the html output for the polnote section
   and for the urgent section
 
-  @announce-stderr
   Scenario: I see the html for the polnote section
     Given a directory named "polnotes"
     Given I cd to "polnotes"

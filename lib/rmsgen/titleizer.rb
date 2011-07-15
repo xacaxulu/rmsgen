@@ -1,7 +1,6 @@
 module Rmsgen
   class Titleizer
     DATE_FORMAT = ('%d %B %Y')
-    TEMPLATE = Rmsgen.template_path + '/title.erb'
 
     attr_reader :title
 
@@ -36,7 +35,8 @@ module Rmsgen
     end
 
     def body
-      ERB.new(File.read(TEMPLATE)).result(binding)
+      template = File.join(File.dirname(__FILE__), '..', 'templates', 'title.erb')
+      ERB.new(File.read(template)).result(binding)
     end
   end
 end

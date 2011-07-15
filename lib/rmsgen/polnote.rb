@@ -1,6 +1,6 @@
 module Rmsgen
   class Polnote
-    TEMPLATE = Rmsgen.template_path + '/polnote.erb'
+    
 
     attr_reader :parts
     attr_accessor :title, :body, :expires_on
@@ -34,7 +34,8 @@ module Rmsgen
     end
 
     def to_html
-      ERB.new(File.read(TEMPLATE)).result(binding)
+      template = File.join(File.dirname(__FILE__), '..', 'templates', 'polnote.erb')
+      ERB.new(File.read(template)).result(binding)
     end
   end
 end

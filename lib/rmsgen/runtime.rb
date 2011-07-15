@@ -1,3 +1,5 @@
+require 'rmsgen/polnote'
+
 module Rmsgen
   class Runtime
     def initialize(config)
