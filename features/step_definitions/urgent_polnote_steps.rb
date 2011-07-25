@@ -9,6 +9,7 @@ end
 Given /^an urgent polnote exists$/ do
   polnote = fixture("urgent_note")  
   write_file("urgent", polnote)
+  cd '..'
 end
 
 Given /^I use rmsgen$/ do

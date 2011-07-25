@@ -3,10 +3,9 @@ Feature: Generate polnote from full email
   As a helper
   I want a pol note from a full raw email
 
+  @setup_polnote_directory
   Scenario: Raw email is stripped to just the body
-    Given a directory named "polnotes"
-    Given I cd to "polnotes"
-    And a file named "polnote" with:
+    Given a file named "polnote" with:
     """
     Return-Path: <rms@gnu.org>
     X-Original-To: stallman-helpers@netpurgatory.com

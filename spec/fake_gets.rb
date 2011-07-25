@@ -12,7 +12,6 @@ class FakeGetMany
   
   def initialize(*answers)
     @answers = answers
-    @count = 0
   end
 
   def answer
@@ -20,7 +19,6 @@ class FakeGetMany
   end
 
   def gets
-    @count += 1
     answer
   end
 end

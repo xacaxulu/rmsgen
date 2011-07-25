@@ -1,14 +1,11 @@
-@announce-stdout
-@announce-stderr
 Feature: Managing a standard polnote
   In order to obtain a polnote in html
   As a user
   I want to run polnote on a standard polnote
 
+  @setup_polnote_directory
   Scenario: A standard polnote 
-    Given a directory named "polnotes"
-    Given I cd to "polnotes"
-    And a file named "polnote" with:
+    Given a file named "polnote" with:
     """
     A story about something.
 

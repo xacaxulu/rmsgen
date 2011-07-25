@@ -3,11 +3,9 @@ Feature: Concat tabbed line
   As a helper
   I must append the tabbed line to the previous paragraph
 
-  @announce-stdout
+  @setup_polnote_directory @announce-stdout
   Scenario: Line concat
-    Given a directory named "polnotes"
-    Given I cd to "polnotes"
-    And a file named "note" with:
+    Given a file named "note" with:
     """
     Some text
 

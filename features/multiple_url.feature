@@ -3,10 +3,9 @@ Feature: Inquiring about multiple urls
   As a helper
   I want to be be able to input information on multiple urls
 
+  @setup_polnote_directory
   Scenario: Two urls
-    Given a directory named "polnotes"
-    Given I cd to "polnotes"
-    And a file named "polnote" with:
+    Given a file named "polnote" with:
     """
     A story about something.
 

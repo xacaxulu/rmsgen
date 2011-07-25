@@ -3,10 +3,9 @@ Feature: Detect link to polnotes
   As a helper
   I want to be prompted for a polnote url
 
+  @setup_polnote_directory
   Scenario: A pol note with a request to link to pol note
-    Given a directory named "polnotes"
-    Given I cd to "polnotes"
-    And a file named "polnote" with:
+    Given a file named "polnote" with:
     """
     A story about something.
 

@@ -4,10 +4,9 @@ Feature: Helper sets title
   I want to be asked for title text 
   and shown the proper html output
 
+  @setup_polnote_directory
   Scenario: Helper sets title
-    Given a directory named "polnotes"
-    And I cd to "polnotes"
-    And a file named "polnote" with:
+    Given a file named "polnote" with:
     """
     A story about something.
     """
