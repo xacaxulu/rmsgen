@@ -5,58 +5,60 @@ module Rmsgen
     URL_MATCHER = /^http/
     DURATION_MATCHER = /^For.*week.*$/
 
-    def initialize(polnote, stdout=$stdout)
-      @inquiries = []
-      @polnote   = polnote
-      @parts     = @polnote.parts
-      @script    = Script.new(stdout)
+    def initialize polnote, stdout=$stdout 
+      @parts_seen = []
+      @polnote    = polnote
+      @parts      = @polnote.parts
+      @script     = Script.new stdout 
       run!
     end
 
     def run!
       @parts.each do |part|
         if part =~ DURATION_MATCHER
-          update_expiry
+          inquire_about_expiration
         elsif part =~ URL_MATCHER
-          linkify(part)
+          inquire_about_link part 
         elsif part =~ NOTE_MATCHER
-          polnotify(part) 
+          inquire_about_polnote_link part  
         elsif part =~ INDENT_PARAGRAPH_MATCHER
-          append(part)
+          append_to_previous_paragraph part 
         else
-          inquired_about(part)
+          inquired_about part 
         end
       end
     end
 
-    def update_expiry
+    def inquire_about_expiration
       @polnote.expires_on = @script.prompt_for_expiry_date
     end
 
-    def linkify(part)
-      @script.say(@inquiries.last)
-      merge_link(@script.prompt_for_text, part, @inquiries.last)
+    def inquire_about_link part 
+      @script.announce last_part_seen
+      text = @script.prompt_for_text
+      last_part_seen.gsub!(text, Link.new(text, part).to_s)
     end
 
-    def polnotify(part)
-      link = @script.prompt_for_polnote_link(part)
-      merge_link(@script.prompt_for_text, link, @inquiries.last)
+    def inquire_about_polnote_link part 
+      href = @script.prompt_for_polnote_link part 
+      text = @script.prompt_for_text
+      last_part_seen.gsub!(text, Link.new(text, href).to_s)
     end
 
-    def append(part)
-      @inquiries.last << " #{part.strip}\n\n"
+    def append_to_previous_paragraph part 
+      last_part_seen << " #{part.strip}#{PartGroup::DELIMETER}"
     end
 
-    def inquired_about(part)
-      @inquiries << "#{part}"
+    def inquired_about part 
+      @parts_seen << "#{part}"
     end
 
-    def merge_link(text, link, src)
-      src.gsub!(text, %{<a href='#{link}'>#{text}</a>})
+    def last_part_seen
+      @parts_seen.last
     end
 
     def body
-      @inquiries.join("\n\n")
+      @parts_seen.join PartGroup::DELIMETER 
     end
   end
 end

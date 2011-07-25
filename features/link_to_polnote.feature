@@ -27,7 +27,7 @@ Feature: Detect link to polnotes
 
     Then the output should contain:
     """
-    Link to the pol note:
+    What is the Link to the pol note?:
 
     """
     And the output should contain:

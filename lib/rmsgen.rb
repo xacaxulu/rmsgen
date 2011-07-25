@@ -9,7 +9,7 @@ module Rmsgen
   require 'rmsgen/script'
   require 'rmsgen/inquirer'
   require 'rmsgen/runtime'
-  require 'rmsgen/url_merger'
+  require 'rmsgen/link'
 end
 
 

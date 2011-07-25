@@ -27,7 +27,7 @@ module Rmsgen
     end
 
     def body
-      @parts.join("\n\n")
+      @parts.join PartGroup::DELIMETER
     end
   end
 end

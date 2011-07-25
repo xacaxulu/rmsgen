@@ -1,11 +1,9 @@
 module Rmsgen
   class Polnote
-    
-
-    attr_reader :parts
     attr_accessor :title, :body, :expires_on
 
     URGENT_SUBJECT = 'Subject: Urgent note'
+    TEMPLATE = File.join(File.dirname(__FILE__), '..', 'templates', 'polnote.erb')
 
     def initialize(source)
       @body   = source.dup
@@ -14,7 +12,7 @@ module Rmsgen
     end
 
     def urgent?
-      !!@urgent
+      @urgent
     end
 
     def compress
@@ -34,8 +32,7 @@ module Rmsgen
     end
 
     def to_html
-      template = File.join(File.dirname(__FILE__), '..', 'templates', 'polnote.erb')
-      ERB.new(File.read(template)).result(binding)
+      ERB.new(File.read(TEMPLATE)).result(binding)
     end
   end
 end
