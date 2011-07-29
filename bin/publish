@@ -1,0 +1,3 @@
+#!/bin/bash
+scp $1 helpers@stallman.org:~
+ssh helpers@stallman.org "printf '%s\n' '/Do not modify this line/+2r $1' 'w' | ed \$cur_file"

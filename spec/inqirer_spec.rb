@@ -36,16 +36,10 @@ describe Rmsgen::Inquirer do
   end
 
   describe "inquiring about a duration" do
-    let(:note) { Rmsgen::Polnote.new("For one week:\n\nUrgent: blah blah blah") }
-
-    subject { Rmsgen::Inquirer.new(note, stdout) }
-
-    before do 
-    end
-
     it "asks for the end date of the duration" do
-      $stdin = FakeGetMany.new("Title", "July 1")
-      subject.run!
+      note = Rmsgen::Polnote.new("For one week:\n\nUrgent: blah blah blah")
+      $stdin = FakeGetMany.new("July 1")
+      Rmsgen::Inquirer.new(note, stdout)
       note.expires_on.should == "July 1"
     end
   end

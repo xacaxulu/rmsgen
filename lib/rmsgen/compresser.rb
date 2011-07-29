@@ -6,6 +6,12 @@ module Rmsgen
       run!
     end
 
+    def body
+      @parts.join PartGroup::DELIMETER
+    end
+
+    private
+
     def run!
       rm_header
       rm_footer
@@ -26,8 +32,5 @@ module Rmsgen
       end
     end
 
-    def body
-      @parts.join PartGroup::DELIMETER
-    end
   end
 end

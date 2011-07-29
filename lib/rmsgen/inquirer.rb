@@ -13,6 +13,12 @@ module Rmsgen
       run!
     end
 
+    def body
+      @parts_seen.join PartGroup::DELIMETER 
+    end
+
+    private
+
     def run!
       @parts.each do |part|
         if part =~ DURATION_MATCHER
@@ -29,36 +35,32 @@ module Rmsgen
       end
     end
 
-    def inquire_about_expiration
-      @polnote.expires_on = @script.prompt_for_expiry_date
-    end
-
     def inquire_about_link part 
       @script.announce last_part_seen
       text = @script.prompt_for_text
       last_part_seen.gsub!(text, Link.new(text, part).to_s)
     end
 
-    def inquire_about_polnote_link part 
-      href = @script.prompt_for_polnote_link part 
-      text = @script.prompt_for_text
-      last_part_seen.gsub!(text, Link.new(text, href).to_s)
+    def inquire_about_expiration
+      @polnote.expires_on = @script.prompt_for_expiry_date
     end
 
     def append_to_previous_paragraph part 
       last_part_seen << " #{part.strip}#{PartGroup::DELIMETER}"
     end
 
-    def inquired_about part 
-      @parts_seen << "#{part}"
-    end
-
     def last_part_seen
       @parts_seen.last
     end
 
-    def body
-      @parts_seen.join PartGroup::DELIMETER 
+    def inquired_about part 
+      @parts_seen << "#{part}"
+    end
+
+    def inquire_about_polnote_link part 
+      href = @script.prompt_for_polnote_link part 
+      text = @script.prompt_for_text
+      last_part_seen.gsub!(text, Link.new(text, href).to_s)
     end
   end
 end

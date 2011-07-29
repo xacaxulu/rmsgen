@@ -8,15 +8,11 @@ module Rmsgen
     def initialize(source)
       @body   = source.dup
       @urgent = source.include? URGENT_SUBJECT
-      compress
+      compress!
     end
 
     def urgent?
       @urgent
-    end
-
-    def compress
-      @body = Compresser.new(self).body
     end
 
     def titleize
@@ -33,6 +29,12 @@ module Rmsgen
 
     def to_html
       ERB.new(File.read(TEMPLATE)).result(binding)
+    end
+
+    private
+
+    def compress!
+      @body = Compresser.new(self).body
     end
   end
 end
