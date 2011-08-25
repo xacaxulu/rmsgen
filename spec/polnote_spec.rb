@@ -14,4 +14,13 @@ describe Rmsgen::Polnote do
       polnote.urgent?.should be true
     end
   end
+
+  context "imap email" do
+    let(:imap_note) { fixture(:imap_note) }
+
+    it "has parts" do
+      note = Rmsgen::Polnote.new(imap_note)
+      note.parts.should == ['hello', 'world']
+    end
+  end
 end

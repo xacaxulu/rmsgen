@@ -10,6 +10,7 @@ module Rmsgen
   require 'rmsgen/inquirer'
   require 'rmsgen/runtime'
   require 'rmsgen/link'
+  require 'rmsgen/imap_polnote_group'
 end
 
 

@@ -12,4 +12,10 @@ describe PartGroup do
     p = PartGroup.new(input)
     p.should == ['1', '2', '3', '4']
   end
+
+  it "splits input into parts based on carriage return and newline" do
+    input = "1\r\n\r\n2\r\n\r\n3\r\n\r\n4"
+    p = PartGroup.new(input)
+    p.should == ['1', '2', '3', '4']
+  end
 end

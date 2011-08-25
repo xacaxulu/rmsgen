@@ -4,6 +4,7 @@ Feature: Concat tabbed line
   I must append the tabbed line to the previous paragraph
 
   @setup_polnote_directory @announce-stdout
+  @announce-stderr
   Scenario: Line concat
     Given a file named "note" with:
     """

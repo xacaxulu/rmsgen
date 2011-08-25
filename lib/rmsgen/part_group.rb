@@ -9,6 +9,10 @@ class PartGroup < Array
   end
 
   def assign_parts!
+    if @text.match /\r\n\r\n/
+      @text.gsub!(/\r\n\r\n/, "\n\n")
+      @text.gsub!(/\r\n/, " ")
+    end
     @text.split(DELIMETER).each { |p| self << p }
   end
 end

@@ -28,7 +28,7 @@ module Rmsgen
 
     def single_line_paragraphs
       @parts.each do |part|
-        part.gsub!("\n", ' ')
+        part.gsub!("\n", '')
       end
     end
 
