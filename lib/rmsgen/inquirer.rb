@@ -1,9 +1,9 @@
 module Rmsgen
   class Inquirer
-    INDENT_PARAGRAPH_MATCHER = /^   /
-    NOTE_MATCHER = /\[Link/
-    URL_MATCHER = /^http/
-    DURATION_MATCHER = /^For.*week.*$/
+    PARTS = { :url => /^http/, 
+              :note =>/\[Link/,
+              :duration => /^For.*week.*$/,
+              :indendation => /^   / }
 
     def initialize polnote, stdout=$stdout 
       @parts_seen = []
@@ -21,24 +21,25 @@ module Rmsgen
 
     def run!
       @parts.each do |part|
-        if part =~ DURATION_MATCHER
+        if part =~ PARTS[:duration]
           inquire_about_expiration
-        elsif part =~ URL_MATCHER
+        elsif part =~ PARTS[:url]
           inquire_about_link part 
-        elsif part =~ NOTE_MATCHER
+        elsif part =~ PARTS[:note]
           inquire_about_polnote_link part  
-        elsif part =~ INDENT_PARAGRAPH_MATCHER
+        elsif part =~ PARTS[:indendation]
           append_to_previous_paragraph part 
         else
-          inquired_about part 
+          @parts_seen << part
         end
       end
     end
 
-    def inquire_about_link part 
-      @script.announce last_part_seen
+    def inquire_about_link url 
+      @script.announce current_part
       text = @script.prompt_for_text
-      last_part_seen.gsub!(text, Link.new(text, part).to_s)
+      link = Link.new text, url
+      current_part.gsub! text, link.to_s 
     end
 
     def inquire_about_expiration
@@ -46,21 +47,18 @@ module Rmsgen
     end
 
     def append_to_previous_paragraph part 
-      last_part_seen << " #{part.strip}#{PartGroup::DELIMETER}"
+      current_part << " #{part.strip}#{PartGroup::DELIMETER}"
     end
 
-    def last_part_seen
+    def current_part
       @parts_seen.last
-    end
-
-    def inquired_about part 
-      @parts_seen << "#{part}"
     end
 
     def inquire_about_polnote_link part 
       href = @script.prompt_for_polnote_link part 
       text = @script.prompt_for_text
-      last_part_seen.gsub!(text, Link.new(text, href).to_s)
+      link = Link.new text, href 
+      current_part.gsub! text, link.to_s
     end
   end
 end
