@@ -57,6 +57,7 @@ module Rmsgen
 
     def inquire_about_polnote_link part 
       href = @script.prompt_for_polnote_link part 
+      @script.announce current_part
       text = @script.prompt_for_text
       link = Link.new text, href 
       current_part.gsub! text, link.to_s

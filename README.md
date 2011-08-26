@@ -51,3 +51,5 @@ Note: path must be absolute.
 ## Run `rmsgen` to iterate all messages in inbox
 
     $ rmsgen
+
+For each note, __rmsgen__ will promp you for different types of input.

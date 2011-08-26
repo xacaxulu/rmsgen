@@ -29,6 +29,10 @@ Feature: Detect link to polnotes
     """
     What is the Link to the pol note?:
 
+
+    A story about something.
+    
+    What is the text?
     """
     And the output should contain:
     """
