@@ -8,7 +8,7 @@ describe PartGroup do
   end
 
   it "output list of parts ordered by appearance" do
-    input = "1\n\n2\n\n3\n\n4"
+    input = "\n\n\n\n1\n\n2\n\n3\n\n4"
     p = PartGroup.new(input)
     p.should == ['1', '2', '3', '4']
   end

@@ -14,6 +14,18 @@ module Rmsgen
       ERB.new(File.read(TEMPLATE)).result(binding)
     end
 
+    def today_format
+      Date.today.strftime('%d %B %Y')
+    end
+
+    def today_underscore
+      today_format.gsub(' ', '_')
+    end
+
+    def title_underscore
+      @title.gsub(' ', '_')
+    end
+
     private
     
     def run!

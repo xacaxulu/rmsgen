@@ -6,7 +6,7 @@ module Rmsgen
       @config = config
       raise "Ensure you have populated a config file" unless @config
       @output = @config['output_file']
-      @notes = fetch_notes
+      @notes = fetch_notes 
       run!
     end
 
@@ -45,9 +45,9 @@ module Rmsgen
 
     def fetch_notes_from_imap
       options = { 
-        :imap_server => @config['imap_server'],
-        :imap_login  => @config['imap_login'],
-        :imap_password => @config['imap_password'] 
+        'imap_server' => @config['imap_server'],
+        'imap_login' => @config['imap_login'],
+        'imap_password' => @config['imap_password'] 
       }
 
       imap = Net::IMAP.new(@config['imap_server'])
@@ -55,10 +55,12 @@ module Rmsgen
     end
 
     def process_notes
-      @notes.each do |note|
-        puts note.inspect
-        puts Polnote.new(note).inspect
-        yield Polnote.new(note)
+      if @notes
+        @notes.each do |note|
+          yield Polnote.new(note)
+        end
+      else
+        puts 'no polnotes in queue'
       end
     end
   end

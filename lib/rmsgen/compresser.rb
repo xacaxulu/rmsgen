@@ -27,10 +27,7 @@ module Rmsgen
     end
 
     def single_line_paragraphs
-      @parts.each do |part|
-        part.gsub!("\n", '')
-      end
+      @parts.each { |part| part.gsub!("\n", '') }
     end
-
   end
 end

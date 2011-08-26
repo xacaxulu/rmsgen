@@ -1,5 +1,1 @@
-<% today = Date.today %>
-<% today_format = today.strftime('%d %B %Y') %>
-<% today_underscore = today_format.gsub(' ', '_') %>
-<% title_underscore = @title.gsub(' ', '_') %>
 <p><li><a name='<%= today_underscore %>_(<%= title_underscore %>)' /><%= today_format %> (<a class='titlelink' href='#<%= today_underscore %>_(<%= title_underscore %>)'><%= title %></a>)</p>

@@ -3,7 +3,8 @@ module Rmsgen
     PARTS = { :url => /^http/, 
               :note =>/\[Link/,
               :duration => /^For.*week.*$/,
-              :indendation => /^   / }
+              :indendation => /^   / 
+            }
 
     def initialize polnote, stdout=$stdout 
       @parts_seen = []

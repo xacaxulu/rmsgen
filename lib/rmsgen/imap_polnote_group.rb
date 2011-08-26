@@ -4,9 +4,9 @@ module Rmsgen
 
     def initialize(imap, options={})
       @imap = imap
-      @server = options[:imap_server]
-      @login  = options[:imap_login]
-      @password = options[:imap_password]
+      @server = options['imap_server']
+      @login  = options['imap_login']
+      @password = options['imap_password']
     end
 
     def fetch_notes
@@ -18,7 +18,7 @@ module Rmsgen
     private
 
     def authenticate
-      @imap.authenticate('LOGIN', @login, @password)
+      @imap.authenticate 'LOGIN', @login, @password 
     end
 
     def follow_inbox
@@ -33,7 +33,7 @@ module Rmsgen
     end
 
     def fetch_message_body(id)
-      fetch_result = @imap.fetch(id, 'BODY[TEXT]')
+      fetch_result = @imap.fetch id, 'BODY[TEXT]' 
       if fetch_result && fetch_result.any?
         fetch_result[0].attr['BODY[TEXT]']
       end

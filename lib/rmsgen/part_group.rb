@@ -12,7 +12,8 @@ class PartGroup < Array
     if @text.match /\r\n\r\n/
       @text.gsub!(/\r\n\r\n/, "\n\n")
       @text.gsub!(/\r\n/, " ")
+      @text.gsub!(/\n\n\n\n/, "")
     end
-    @text.split(DELIMETER).each { |p| self << p }
+    @text.split(DELIMETER).delete_if(&:empty?).each { |p| self << p }
   end
 end

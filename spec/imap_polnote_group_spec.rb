@@ -4,8 +4,8 @@ describe Rmsgen::IMAPPolnoteGroup do
   context 'fetching notes' do
     let(:imap) { double('imap') }
     let(:options) do { 
-        :imap_login  => 'login',
-        :imap_password => 'password'} 
+        'imap_login'  => 'login',
+        'imap_password' => 'password'} 
     end
 
     let(:do_fetch) do
