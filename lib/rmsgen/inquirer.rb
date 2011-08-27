@@ -10,12 +10,22 @@ module Rmsgen
       @parts_seen = []
       @polnote    = polnote
       @parts      = @polnote.parts
+      @stdout     = stdout
       @script     = Script.new stdout 
       run!
     end
 
     def body
       @parts_seen.join PartGroup::DELIMETER 
+    end
+
+    def self.inquire_about_note(note, stdout=$stdout)
+      stdout.puts note.body
+      stdout.puts
+      note.titleize
+      note.inquire
+      stdout.puts
+      note
     end
 
     private

@@ -11,24 +11,24 @@ module Rmsgen
     end
 
     def run!
-      process_notes do |note|
-        system('clear')
-        puts note.body
-        puts
-        note.titleize
-        note.inquire
-        puts
-        write(note)
+      if @notes
+        @notes.each do |note|
+          system('clear')
+          polnote = Rmsgen::Inquirer.inquire_about_note(note)
+          write(polnote)
+        end
+      else
+        puts 'no polnotes in queue'
       end
     end
 
     private
 
     def write(note)
-      output_file = File.open(@output, 'a') if @output
-      if output_file
-        output_file.puts note.to_html
-        output_file.close
+      if @output
+        File.open(@output, 'a') do |file|
+          file.puts note.to_html
+        end
       else
         puts note.to_html
         puts
@@ -37,15 +37,15 @@ module Rmsgen
 
     def fetch_notes
       if @config['email_dir']
-        Dir["#{@config['email_dir']}/*"].map { |f| File.read(f) }
+        notes = Dir["#{@config['email_dir']}/*"].map { |f| File.read(f) }
       else
-        fetch_notes_from_imap
+        notes = fetch_notes_from_imap
       end
+      notes.map { |note| Rmsgen::Polnote.new(note) } if notes
     end
 
     def fetch_notes_from_imap
       options = { 
-        'imap_server' => @config['imap_server'],
         'imap_login' => @config['imap_login'],
         'imap_password' => @config['imap_password'] 
       }
@@ -54,14 +54,5 @@ module Rmsgen
       Rmsgen::IMAPPolnoteGroup.new(imap, options).fetch_notes
     end
 
-    def process_notes
-      if @notes
-        @notes.each do |note|
-          yield Polnote.new(note)
-        end
-      else
-        puts 'no polnotes in queue'
-      end
-    end
   end
 end
