@@ -3,43 +3,36 @@ Feature: Detect link to polnotes
   As a helper
   I want to be prompted for a polnote url
 
-  @setup_polnote_directory
-  Scenario: A pol note with a request to link to pol note
-    Given a file named "polnote" with:
+  Scenario: A pol note with a request to find a link
+    Given a polnote:
     """
-    A story about something.
+    There was a unicorn search party sent out last night.
 
-    [Link to the pol note]
+    [Link to the search party site]
 
-    More text
+    I hope the unicorn can be found!
     """
-
-    Given I cd to ".."
-    Given a file named "config.yml" with:
-    """
-    email_dir: polnotes
-    """
-
-    Given I run `rmsgen -c config.yml` interactively
-    And I type "The Title"
-    And I type "http://"
-    And I type "about"
-
+    When I run rmsgen
+    And I type "The Lost Unicorn" for the title
+    And I type "http://unicornsearchparty.org"
+    And I type "search party" for the link text
     Then the output should contain:
     """
-    What is the Link to the pol note?:
-
-
-    A story about something.
+    What is the Link to the search party site?:
+    """
+    And the output should contain:
+    """
+    There was a unicorn search party sent out last night.
     
     What is the text?
     """
+
     And the output should contain:
     """
-    <p>A story <a href='http://'>about</a> something.</p>
+    <p>There was a unicorn <a href='http://unicornsearchparty.org'>search party</a> sent out last night.</p>
     """
 
     And the output should contain:
     """
-    <p>More text</p>
+    <p>I hope the unicorn can be found!</p>
     """
