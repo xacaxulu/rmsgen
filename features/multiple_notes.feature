@@ -4,68 +4,51 @@ Feature: Enumerating notes
   I want to be able to answer many notes
 
   Scenario: Two simple notes
-    Given a directory named "polnotes"
+    Given a polnote:
+    """
+    The last unicorn has been found.
+
+    http://lostunicorns.org
+    """
     Given I cd to "polnotes"
-    And a file named "polnote" with:
-    """
-    A story about something.
-
-    http://test.com
-    """
-
     And a file named "polnote2" with:
     """
-    I like turtles.
+    The unicorn search party comes to a close.
 
-    http://test.com
+    http://searchparty.org
     """
     And I cd to ".."
-    Given a file named "config.yml" with:
-    """
-    email_dir: polnotes
-    """
-
-    Given I run `rmsgen -c config.yml` interactively
-    And I type "The Title"
-    And I type "A story about something."
-    And I type "Turtle Story"
-    And I type "I like turtles."
-
+    Given I run rmsgen
+    And I type "Unicorn Found!" for the title
+    And I type "has been found." for the link text
+    And I type "Party Over"
+    And I type "comes to a close."
     Then the output should contain:
     """ 
-    A story about something.
+    The last unicorn has been found.
 
-    http://test.com
+    http://lostunicorns.org
    
-    Type title:
-
-
-    A story about something.
-
-    What is the text?
     """
-
+    And the output should contain:
+    """
+    Unicorn Found!
+    """
+    And the output should contain:
+    """
+    <p>The last unicorn <a href='http://lostunicorns.org'>has been found.</a></p>
+    """
     Then the output should contain:
     """ 
-    I like turtles.
+    The unicorn search party comes to a close.
 
-    http://test.com
-   
-    Type title:
-
-
-    I like turtles.
-
-    What is the text?
+    http://searchparty.org
     """
-
     And the output should contain:
     """
-    <p><a href='http://test.com'>A story about something.</a></p>
+    Party Over
     """
-
     And the output should contain:
     """
-    <p><a href='http://test.com'>I like turtles.</a></p>
+    <p>The last unicorn <a href='http://lostunicorns.org'>has been found.</a></p>
     """
-

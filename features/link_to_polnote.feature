@@ -14,7 +14,7 @@ Feature: Detect link to polnotes
     """
     When I run rmsgen
     And I type "The Lost Unicorn" for the title
-    And I type "http://unicornsearchparty.org"
+    And I type "http://unicornsearchparty.org" for the url
     And I type "search party" for the link text
     Then the output should contain:
     """

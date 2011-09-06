@@ -24,7 +24,7 @@ module Rmsgen
     end
 
     def parts
-      PartGroup.new(@body.dup)
+      PartGroup.new(@body)
     end
 
     def to_html

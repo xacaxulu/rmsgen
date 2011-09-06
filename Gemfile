@@ -4,6 +4,7 @@ source "http://rubygems.org"
 gemspec
 
 group :development do
+  gem 'sinatra'
   gem 'cucumber'
   gem 'aruba'
   gem 'rspec'

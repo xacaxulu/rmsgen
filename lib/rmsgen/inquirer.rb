@@ -1,17 +1,20 @@
 module Rmsgen
   class Inquirer
     PARTS = { :url => /^http/, 
-              :note =>/\[Link/,
-              :duration => /^For.*week.*$/,
-              :indendation => /^   / 
-            }
+      :note =>/\[Link/,
+        :duration => /^For.*week.*$/,
+        :indendation => /^   / 
+    }
 
-    def initialize polnote, stdout=$stdout 
+    attr_reader :polnote
+
+    def initialize polnote, stdout=$stdout, answers=nil
       @parts_seen = []
       @polnote    = polnote
       @parts      = @polnote.parts
       @stdout     = stdout
-      @script     = Script.new stdout 
+      @script     = Script.new(stdout)
+      @answers    = answers
       run!
     end
 
@@ -47,8 +50,12 @@ module Rmsgen
     end
 
     def inquire_about_link url 
-      @script.announce current_part
-      text = @script.prompt_for_text
+      if @answers.empty?
+        @script.announce current_part
+        text = @script.prompt_for_text
+      else
+        text = @answers.shift
+      end
       link = Link.new text, url
       current_part.gsub! text, link.to_s 
     end
@@ -66,9 +73,14 @@ module Rmsgen
     end
 
     def inquire_about_polnote_link part 
-      href = @script.prompt_for_polnote_link part 
-      @script.announce current_part
-      text = @script.prompt_for_text
+      if @answers
+        href = @answers.shift
+        text = @answers.shift
+      else
+        href = @script.prompt_for_polnote_link part 
+        @script.announce current_part
+        text = @script.prompt_for_text
+      end
       link = Link.new text, href 
       current_part.gsub! text, link.to_s
     end

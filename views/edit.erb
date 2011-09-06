@@ -1,0 +1,41 @@
+<% if session[:notes][params[:id]][:title] %>
+<%=  %>
+<% end %>
+<%= session[:notes][params[:id]][:html] %>
+
+<hr />
+
+<%= @polnote.to_html %>
+
+<h1>Editing</h1>
+<form action="/update/<%= params[:id]%>" method='post'>
+
+  <input type="hidden" name="_method" value="put" />
+  <label>Title: </label>
+  <input type="text" name="note[title]" />
+  <br />
+  <br />
+
+  <% @polnote.parts.each_with_index do |part, i| %>
+    <%if part =~ Rmsgen::Inquirer::PARTS[:url]%>
+      <%= @polnote.parts[i-1] %>
+      <br />
+      <label>Excerpt: </label>
+      <input name='note[answers][]' type='text' />
+      <br />
+
+    <% elsif part =~ Rmsgen::Inquirer::PARTS[:note] %>
+      <label>What is <%= part %>?: </label>
+      <input name='note[answers][]' type='text' />
+      <br />
+      <br />
+      <%= @polnote.parts[i-1] %>
+      <br />
+      <label>Excerpt: </label>
+      <input name='note[answers][]' type='text' />
+    <% end %>
+    <br />
+  <% end %>
+  <br />
+  <input type='submit' />
+</form>

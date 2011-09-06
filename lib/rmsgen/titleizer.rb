@@ -4,8 +4,10 @@ module Rmsgen
 
     attr_reader :title
 
-    def initialize(polnote)
+    def initialize(polnote, options={})
       @body = polnote.body
+      @title = options[:title]
+
       @script = Script.new($stdout)
       run!
     end
@@ -26,10 +28,14 @@ module Rmsgen
       @title.gsub(' ', '_')
     end
 
+    def to_html
+      body
+    end
+
     private
     
     def run!
-      @title = @script.prompt_for_title
+      @title = @script.prompt_for_title unless @title
       body
     end
 
