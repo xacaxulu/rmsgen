@@ -9,14 +9,11 @@ module Rmsgen
     end
 
     def run!
-      if @notes
-        @notes.each do |note|
-          system('clear')
-          polnote = Rmsgen::Inquirer.inquire_about_note(note)
-          write(polnote)
-        end
-      else
-        puts 'no polnotes in queue'
+      puts 'no polnotes in queue' if @notes.empty?
+      @notes.each do |note|
+        system('clear')
+        polnote = Rmsgen::Inquirer.inquire_about_note(note)
+        write(polnote)
       end
     end
 

@@ -6,6 +6,7 @@ module Rmsgen
       @imap = imap
       @login  = options['imap_login']
       @password = options['imap_password']
+      @note_ids = init_note_ids || []
     end
 
     def fetch_notes
@@ -14,7 +15,7 @@ module Rmsgen
       find_all_from_rms
     end
 
-    def note_ids
+    def init_note_ids
       authenticate
       follow_inbox
       @imap.search(["FROM", 'rms@gnu.org'])
@@ -51,9 +52,7 @@ module Rmsgen
     end
 
     def find_all_from_rms
-      if note_ids && note_ids.any?
-        note_ids.map { |id| fetch_message_body(id) }
-      end
+      @note_ids.map { |id| fetch_message_body(id) }
     end
 
     def fetch_message_body(id)
