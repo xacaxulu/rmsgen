@@ -14,7 +14,7 @@ module Rmsgen
       @parts      = @polnote.parts
       @stdout     = stdout
       @script     = Script.new(stdout)
-      @answers    = answers
+      @answers    = answers ||= []
       run!
     end
 
@@ -56,8 +56,10 @@ module Rmsgen
       else
         text = @answers.shift
       end
-      link = Link.new text, url
-      current_part.gsub! text, link.to_s 
+      if text && !text.empty?
+        link = Link.new text, url
+        current_part.gsub! text, link.to_s 
+      end
     end
 
     def inquire_about_expiration
@@ -73,7 +75,7 @@ module Rmsgen
     end
 
     def inquire_about_polnote_link part 
-      if @answers
+      if @answers.any?
         href = @answers.shift
         text = @answers.shift
       else

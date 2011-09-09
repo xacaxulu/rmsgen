@@ -1,13 +1,14 @@
 module Rmsgen
   class Polnote
-    attr_accessor :title, :body, :expires_on
+    attr_accessor :id, :title, :body, :expires_on
 
     URGENT_SUBJECT = 'Subject: Urgent note'
     TEMPLATE = File.join(File.dirname(__FILE__), '..', 'templates', 'polnote.erb')
 
-    def initialize(source)
+    def initialize(source, options={})
       @body   = source.dup
       @urgent = source.include? URGENT_SUBJECT
+      @id     = options[:id]
       compress!
     end
 

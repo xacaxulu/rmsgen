@@ -4,7 +4,6 @@ module Rmsgen
 
     def initialize(imap, options={})
       @imap = imap
-      @server = options['imap_server']
       @login  = options['imap_login']
       @password = options['imap_password']
     end
@@ -13,6 +12,32 @@ module Rmsgen
       authenticate
       follow_inbox
       find_all_from_rms
+    end
+
+    def note_ids
+      authenticate
+      follow_inbox
+      @imap.search(["FROM", 'rms@gnu.org'])
+    end
+
+    def find(id)
+      follow_inbox
+      fetch_message_body(id)
+    end
+
+    def archive_polnote(id)
+      authenticate
+      follow_inbox
+      archived = false
+      @imap.search(["FROM", 'rms@gnu.org']).each do |note_id|
+        if note_id.to_i == id.to_i
+          @imap.copy id.to_i, 'INBOX.old-messages' 
+          @imap.store(id.to_i, "+FLAGS", [:Deleted])
+          @imap.expunge
+          archived = true
+        end
+      end
+      archived
     end
 
     private
@@ -26,9 +51,8 @@ module Rmsgen
     end
 
     def find_all_from_rms
-      message_ids = @imap.search ["FROM", 'rms@gnu.org']
-      if message_ids && message_ids.any?
-        message_ids.map { |id| fetch_message_body(id) }
+      if note_ids && note_ids.any?
+        note_ids.map { |id| fetch_message_body(id) }
       end
     end
 

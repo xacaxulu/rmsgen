@@ -40,7 +40,16 @@ describe Rmsgen::Inquirer do
       note = Rmsgen::Polnote.new("For one week:\n\nUrgent: blah blah blah")
       $stdin = FakeGetMany.new("July 1")
       Rmsgen::Inquirer.new(note, stdout)
-      note.expires_on.should == "July 1"
+      note.expires_on.should be == "July 1"
+    end
+  end
+
+  describe 'when a blank answer is given' do
+    it 'returns the polnote text without links' do
+      note = Rmsgen::Polnote.new("foo bar\n\nhttp://")
+      $stdin = FakeGetMany.new("")
+      inquirer = Rmsgen::Inquirer.new(note, stdout)
+      inquirer.body.should be == "foo bar"
     end
   end
 end
