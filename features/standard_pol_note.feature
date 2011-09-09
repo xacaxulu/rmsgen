@@ -5,20 +5,15 @@ Feature: Managing a standard polnote
 
   @setup_polnote_directory
   Scenario: A standard polnote 
-    Given a file named "polnote" with:
+    Given a polnote:
     """
     A story about something.
 
     http://test.com
     """
-    And I cd to ".."
-    Given a file named "config.yml" with:
-    """
-    email_dir: polnotes
-    """
-    Given I run `rmsgen -c config.yml` interactively
-    And I type "The Title"
-    And I type "something"
+    Given I run rmsgen
+    And I type "The Title" for the title
+    And I type "something" for the link text
 
     Then the output should contain:
     """ 

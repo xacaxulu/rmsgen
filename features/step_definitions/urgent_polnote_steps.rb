@@ -7,6 +7,7 @@ Given /^I am ready to do polnotes/ do
 end
 
 Given /^an urgent polnote exists$/ do
+  cd 'polnotes'
   polnote = fixture("urgent_note")  
   write_file("urgent", polnote)
   cd '..'

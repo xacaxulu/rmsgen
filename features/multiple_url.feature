@@ -3,9 +3,8 @@ Feature: Inquiring about multiple urls
   As a helper
   I want to be be able to input information on multiple urls
 
-  @setup_polnote_directory
-  Scenario: Two urls
-    Given a file named "polnote" with:
+  Scenario: It asks for a title and link text
+    Given a polnote:
     """
     A story about something.
 
@@ -15,17 +14,12 @@ Feature: Inquiring about multiple urls
 
     http://test.com
     """
-    And I cd to ".."
-    Given a file named "config.yml" with:
-    """
-    email_dir: polnotes
-    """
-    Given I run `rmsgen -c config.yml` interactively
-    And I type "The Title"
-    And I type "something"
-    And I type "something"
+    Given I run rmsgen
+    And I type "The Title" for the title
+    And I type "something" for the link text
+    And I type "something else" for the link text
     Then the output should contain:
     """
     <p>A story about <a href='http://test.com'>something</a>.</p>
-    <p>And <a href='http://test.com'>something</a> else</p>
+    <p>And <a href='http://test.com'>something else</a></p>
     """

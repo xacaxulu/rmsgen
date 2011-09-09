@@ -3,9 +3,8 @@ Feature: Generate polnote from full email
   As a helper
   I want a pol note from a full raw email
 
-  @setup_polnote_directory
   Scenario: Raw email is stripped to just the body
-    Given a file named "polnote" with:
+    Given a polnote:
     """
     Return-Path: <rms@gnu.org>
     X-Original-To: stallman-helpers@netpurgatory.com
@@ -43,12 +42,7 @@ Feature: Generate polnote from full email
     Skype: No way! That's nonfree (freedom-denying) software.
     Use free telephony http://directory.fsf.org/category/tel/
     """
-    And I cd to ".."
-    Given a file named "config.yml" with:
-    """
-    email_dir: polnotes
-    """
-    Given I run `rmsgen -c config.yml` interactively
+    Given I run rmsgen
     And I type "A title"
     And I type "Text"
     Then the output should contain:
