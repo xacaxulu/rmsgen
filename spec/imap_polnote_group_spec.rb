@@ -2,8 +2,9 @@ require 'rmsgen'
 
 describe Rmsgen::IMAPPolnoteGroup do
   context 'fetching notes' do
-    let(:imap) { double('imap') }
+    let(:imap) { double('foo') }
     let(:options) do { 
+        'imap_server' => 'foo.bar.com',
         'imap_login'  => 'login',
         'imap_password' => 'password'} 
     end
@@ -11,8 +12,9 @@ describe Rmsgen::IMAPPolnoteGroup do
     let(:do_fetch) do
       imap.should_receive(:search).any_number_of_times
       imap.should_receive(:authenticate).any_number_of_times
+      Net::IMAP.should_receive(:new).any_number_of_times.and_return(imap)
       imap.should_receive(:select).any_number_of_times
-      Rmsgen::IMAPPolnoteGroup.new(imap, options).fetch_notes
+      Rmsgen::IMAPPolnoteGroup.new(options).fetch_notes
     end
 
     it 'authenticates with imap server' do
