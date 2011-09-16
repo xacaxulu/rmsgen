@@ -41,13 +41,12 @@ module Rmsgen
 
     def fetch_notes_from_imap
       options = { 
+        'imap_server' => @config['imap_server'],
         'imap_login' => @config['imap_login'],
         'imap_password' => @config['imap_password'] 
       }
 
-      imap = Net::IMAP.new(@config['imap_server'])
-      Rmsgen::IMAPPolnoteGroup.new(imap, options).fetch_notes
+      Rmsgen::IMAPPolnoteGroup.new(options).fetch_notes
     end
-
   end
 end
