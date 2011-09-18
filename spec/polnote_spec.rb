@@ -9,7 +9,7 @@ describe Rmsgen::Polnote do
 
   context "urgent polnote truthfully responds to urgent?" do
     let(:urgent) { fixture(:urgent_note) }  
-    let(:polnote) { Rmsgen::Polnote.new(urgent) } 
+    let(:polnote) { Rmsgen::Polnote.new(:body => urgent) } 
 
     it "truthfully responds to urgent?" do
       polnote.urgent?.should be true
@@ -20,7 +20,7 @@ describe Rmsgen::Polnote do
     let(:imap_note) { fixture(:imap_note) }
 
     it "has parts" do
-      note = Rmsgen::Polnote.new(imap_note)
+      note = Rmsgen::Polnote.new(:body => imap_note)
       note.parts.should == ['hello', 'world']
     end
   end
@@ -35,7 +35,7 @@ describe Rmsgen::Polnote do
 
       $stdout = StringIO.new
       $stdin = FakeGetMany.new(text_a, polnote_url, text_b)
-      polnote = Rmsgen::Polnote.new(note)
+      polnote = Rmsgen::Polnote.new(:body => note)
       polnote.inquire
       polnote.to_html.should ==
         %Q{<p>Somewhere over the <a href='http://rainbow.org'>rainbow</a>.</p>
@@ -52,7 +52,7 @@ describe Rmsgen::Polnote do
       text_a = "Somewhere"
       text_b = "Candy"
       $stdin = FakeGetMany.new(text_a, text_b)
-      polnote = Rmsgen::Polnote.new(multiline_note)
+      polnote = Rmsgen::Polnote.new(:body => multiline_note)
       polnote.inquire
       polnote.to_html.should == "<p> <a href='http://unicorns.org'>Somewhere</a> over the rainbow skies are blue</p>\n<p>Candy is sweet and unicorns are too</p>\n\n"
     end

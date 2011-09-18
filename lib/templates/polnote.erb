@@ -1,2 +1,2 @@
-<%= "<!-- Expires #{@expires_on} -->" if @expires_on %><%= @title %><% parts.map do |part| %><% if part =~ /<!--/ %><%= part %><% else %><p><%= part %></p><% end %>
+<%= @title %><% parts.map do |part| %><% if part =~ /<!--/ %><%= part %><% else %><p><%= part %></p><% end %>
 <% end %>

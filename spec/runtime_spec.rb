@@ -23,7 +23,7 @@ describe Rmsgen::Runtime do
         imap_note = mock(:note)
         notes = [imap_note] 
 
-        imap_note.stub(:attr) { {"BODY[TEXT]"=>"hello world"} }
+        imap_note.stub(:attr) { {"RFC822"=>"hello world"} }
         imap.stub(:authenticate)
         imap.stub(:select)
 

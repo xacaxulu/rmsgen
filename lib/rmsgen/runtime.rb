@@ -36,7 +36,7 @@ module Rmsgen
       else
         notes = fetch_notes_from_imap
       end
-      notes.map { |note| Rmsgen::Polnote.new(note) } if notes
+      notes.map { |note| Rmsgen::Polnote.new(:body => note) } if notes
     end
 
     def fetch_notes_from_imap

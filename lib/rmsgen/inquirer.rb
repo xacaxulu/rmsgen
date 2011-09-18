@@ -63,7 +63,12 @@ module Rmsgen
     end
 
     def inquire_about_expiration
-      @polnote.expires_on = @script.prompt_for_expiry_date
+      if @answers.empty?
+        answer = @script.prompt_for_expiry_date
+      else
+        answer = @answers.shift
+      end
+      @polnote.expires_on = answer
     end
 
     def append_to_previous_paragraph part 

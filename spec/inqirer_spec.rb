@@ -7,7 +7,7 @@ describe Rmsgen::Inquirer do
   let(:stdout) { StringIO.new }
 
   describe "inquires about a note which is indented" do
-    let(:note) { Rmsgen::Polnote.new("foo\n\nhttp://\n\n   bar") }
+    let(:note) { Rmsgen::Polnote.new(:body => "foo\n\nhttp://\n\n   bar") }
 
     subject { Rmsgen::Inquirer.new(note, stdout) }
 
@@ -22,7 +22,7 @@ describe Rmsgen::Inquirer do
   end
 
   describe "it inquires about each link in a note" do
-    let(:note) { Rmsgen::Polnote.new("foo\n\nhttp://\n\nbar\n\nhttp://") }
+    let(:note) { Rmsgen::Polnote.new(:body => "foo\n\nhttp://\n\nbar\n\nhttp://") }
     subject { Rmsgen::Inquirer.new(note, stdout) }
 
     before do
@@ -37,7 +37,7 @@ describe Rmsgen::Inquirer do
 
   describe "inquiring about a duration" do
     it "asks for the end date of the duration" do
-      note = Rmsgen::Polnote.new("For one week:\n\nUrgent: blah blah blah")
+      note = Rmsgen::Polnote.new(:body => "For one week:\n\nUrgent: blah blah blah")
       $stdin = FakeGetMany.new("July 1")
       Rmsgen::Inquirer.new(note, stdout)
       note.expires_on.should be == "July 1"
@@ -46,7 +46,7 @@ describe Rmsgen::Inquirer do
 
   describe 'when a blank answer is given' do
     it 'returns the polnote text without links' do
-      note = Rmsgen::Polnote.new("foo bar\n\nhttp://")
+      note = Rmsgen::Polnote.new(:body => "foo bar\n\nhttp://")
       $stdin = FakeGetMany.new("")
       inquirer = Rmsgen::Inquirer.new(note, stdout)
       inquirer.body.should be == "foo bar"

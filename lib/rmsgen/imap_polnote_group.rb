@@ -61,9 +61,9 @@ module Rmsgen
     end
 
     def fetch_message_body(id)
-      fetch_result = imap.fetch id, 'BODY[TEXT]' 
+      fetch_result = imap.fetch id, 'RFC822' 
       if fetch_result && fetch_result.any?
-        fetch_result[0].attr['BODY[TEXT]']
+        fetch_result[0].attr['RFC822']
       end
     end
   end

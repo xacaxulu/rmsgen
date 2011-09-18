@@ -22,12 +22,6 @@ Feature: Urgent Polnotes
     """
     What day does it expire? 
     """
-
-    And the output should contain:
-    """
-    <!-- Expires 01 July 2011 -->
-    """
-
     Then the output should not contain:
     """
     <p>For one week:</p>

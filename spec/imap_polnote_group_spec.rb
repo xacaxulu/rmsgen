@@ -38,7 +38,7 @@ describe Rmsgen::IMAPPolnoteGroup do
 
       imap.stub(:search) { search_result }
 
-      imap.should_receive(:fetch).with(message_id, 'BODY[TEXT]')
+      imap.should_receive(:fetch).with(message_id, 'RFC822')
       do_fetch
     end
   end

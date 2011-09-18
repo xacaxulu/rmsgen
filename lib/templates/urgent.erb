@@ -1,0 +1,3 @@
+<li><%= "<!-- Expires #{@expires_on} -->" if @expires_on %>
+<% parts.map do |part| %><% if part =~ /<!--/ %><%= part %><% else %><p><%= part %></p><% end %><% end %>
+</li>

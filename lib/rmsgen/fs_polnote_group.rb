@@ -3,7 +3,7 @@ module Rmsgen
     def initialize(dir=nil)
       splat_dir = "#{dir}/*"
       @raw_notes = Dir[splat_dir].map { |f| File.read(f) }
-      @notes = @raw_notes.map { |note| Rmsgen::Polnote.new(note) }
+      @notes = @raw_notes.map { |note| Rmsgen::Polnote.new(:body => note) }
     end
     def all
       @notes
