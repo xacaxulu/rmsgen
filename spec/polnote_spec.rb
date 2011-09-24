@@ -2,7 +2,6 @@ require 'rmsgen'
 require 'fake_gets'
 
 describe Rmsgen::Polnote do
-
   def fixture(name)
     File.read("spec/fixtures/#{name}")
   end
@@ -21,7 +20,7 @@ describe Rmsgen::Polnote do
 
     it "has parts" do
       note = Rmsgen::Polnote.new(:body => imap_note)
-      note.parts.should == ['hello', 'world']
+      note.parts.size.should be == 2
     end
   end
 
@@ -29,12 +28,8 @@ describe Rmsgen::Polnote do
     let(:note) { fixture(:link_to_polnote) }
 
     it 'parses the body' do
-      text_a = "rainbow"
-      polnote_url = "http://somenote"
-      text_b = "blue"
-
       $stdout = StringIO.new
-      $stdin = FakeGetMany.new(text_a, polnote_url, text_b)
+      $stdin = FakeGetMany.new('rainbow', 'http://somenote', 'blue')
       polnote = Rmsgen::Polnote.new(:body => note)
       polnote.inquire
       polnote.to_html.should ==

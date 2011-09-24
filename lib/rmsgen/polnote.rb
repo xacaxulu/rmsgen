@@ -19,15 +19,11 @@ module Rmsgen
     end
 
     def titleize
-      @title = Titleizer.new(self).body
+      @title = Titleizer.new(self).to_html
     end
 
     def inquire
       @body = Inquirer.new(self).body
-    end
-
-    def parts
-      PartGroup.new(@body)
     end
 
     def to_html
@@ -38,10 +34,14 @@ module Rmsgen
       ERB.new(File.read(URGENT_TEMPLATE)).result(binding)
     end
 
+    def parts
+      PartGroup.new(@body)
+    end
+
     private
 
     def compress!
-      @body = Compresser.new(self).body
+      @body = Compresser.new(parts).body
     end
 
     def sanitize_urgent_attribute(attribute)

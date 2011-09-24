@@ -11,16 +11,11 @@ module Rmsgen
       @title   = options[:title]
       @body    = polnote.body
       @script  = Script.new($stdout)
-
       run!
     end
 
-    def body
-      ERB.new(File.read(TEMPLATE)).result(binding)
-    end
-
     def to_html
-      body
+      ERB.new(File.read(TEMPLATE)).result(binding)
     end
 
     private
@@ -29,12 +24,12 @@ module Rmsgen
       @title = capitalize(get_title_from_options_or_script)
     end
 
-    def get_title_from_options_or_script
-      @title || @script.prompt_for_title
+    def capitalize(str)
+      str.split(SPACE).map(&:capitalize).join(SPACE)
     end
 
-    def capitalize(title=SPACE)
-      title.split(SPACE).map(&:capitalize).join(SPACE)
+    def get_title_from_options_or_script
+      @title || @script.prompt_for_title
     end
 
     def today_format

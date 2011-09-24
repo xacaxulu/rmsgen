@@ -1,11 +1,5 @@
 module Rmsgen
   class Inquirer
-    PARTS = { :url => /^http/, 
-      :note =>/\[Link/,
-        :duration => /^For.*week.*$/,
-        :indendation => /^   / 
-    }
-
     attr_reader :polnote
 
     def initialize polnote, stdout=$stdout, answers=nil
@@ -35,13 +29,13 @@ module Rmsgen
 
     def run!
       @parts.each do |part|
-        if part =~ PARTS[:duration]
+        if part.is_a?(Rmsgen::Parts::Duration)
           inquire_about_expiration
-        elsif part =~ PARTS[:url]
+        elsif part.is_a?(Rmsgen::Parts::Url)
           inquire_about_link part 
-        elsif part =~ PARTS[:note]
+        elsif part.is_a?(Rmsgen::Parts::PolnoteUrlRequest)
           inquire_about_polnote_link part  
-        elsif part =~ PARTS[:indendation]
+        elsif part.is_a?(Rmsgen::Parts::IndentedLine)
           append_to_previous_paragraph part 
         else
           @parts_seen << part

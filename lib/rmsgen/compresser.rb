@@ -1,13 +1,12 @@
 module Rmsgen
   class Compresser
-    def initialize(polnote)
-      @polnote = polnote
-      @parts = polnote.parts
+    def initialize(part_group=[])
+      @part_group = part_group
       run!
     end
 
     def body
-      @parts.join PartGroup::DELIMETER
+      @part_group.join PartGroup::DELIMETER
     end
 
     private
@@ -19,15 +18,15 @@ module Rmsgen
     end
 
     def rm_header
-      @parts.delete_if { |x| x =~ /Return-Path:/ }
+      @part_group.delete_if { |x| x.is_a?(Rmsgen::Parts::Header) }
     end
 
     def rm_footer
-      @parts.delete_if { |x| x =~ /Dr Richard Stallman/ } 
+      @part_group.delete_if { |x| x.is_a?(Rmsgen::Parts::Footer) }
     end
 
     def single_line_paragraphs
-      @parts.each { |part| part.gsub!("\n", '') }
+      @part_group.each { |part| part.gsub!("\n", ' ') }
     end
   end
 end

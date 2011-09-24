@@ -1,12 +1,22 @@
 module Rmsgen
   class FsPolnoteGroup
     def initialize(dir=nil)
-      splat_dir = "#{dir}/*"
-      @raw_notes = Dir[splat_dir].map { |f| File.read(f) }
-      @notes = @raw_notes.map { |note| Rmsgen::Polnote.new(:body => note) }
+      @note_bodies = note_bodies_from_directory(dir)
+      @notes = build_many_polnotes(@note_bodies)
     end
+
     def all
       @notes
+    end
+
+    private
+
+    def note_bodies_from_directory(dir)
+      Dir["#{dir}/*"].map { |f| File.read(f) }
+    end
+
+    def build_many_polnotes(note_bodies)
+      note_bodies.map { |body| Rmsgen::Polnote.new(:body => body)  }
     end
   end
 end

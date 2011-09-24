@@ -20,7 +20,7 @@ module Rmsgen
     def init_note_ids
       authenticate
       follow_inbox
-      imap.search(["FROM", 'rms@gnu.org'])
+      search_for_notes
     end
 
     def find(id)
@@ -30,19 +30,20 @@ module Rmsgen
 
     def archive_polnote(id)
       follow_inbox
-      archived = false
-      imap.search(["FROM", 'rms@gnu.org']).each do |note_id|
-        if note_id.to_i == id.to_i
-          imap.copy id.to_i, 'INBOX.old-messages' 
-          imap.store(id.to_i, "+FLAGS", [:Deleted])
-          imap.expunge
-          archived = true
-        end
-      end
-      archived
+      move_to_archives(id)
     end
 
     private
+
+    def move_to_archives(id)
+      imap.copy id.to_i, 'INBOX.old-messages' 
+      imap.store(id.to_i, "+FLAGS", [:Deleted])
+      imap.expunge
+    end
+
+    def search_for_notes(&block)
+      imap.search(["FROM", 'rms@gnu.org'],&block)
+    end
 
     def imap
       @imap ||= Net::IMAP.new(@imap_options['imap_server'])
