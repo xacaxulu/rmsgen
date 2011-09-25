@@ -11,6 +11,10 @@ module Rmsgen
       @note_ids = init_note_ids || []
     end
 
+    def all
+      fetch_notes
+    end
+
     def fetch_notes
       authenticate
       follow_inbox

@@ -26,6 +26,18 @@ module Rmsgen
       @body = Inquirer.new(self).body
     end
 
+    def include?(pattern)
+      @body.include?(pattern)
+    end
+
+    def gsub!(x, y)
+      @body.gsub!(x, y)
+    end
+
+    def split(x)
+      @body.split(x)
+    end
+
     def to_html
       ERB.new(File.read(POLNOTE_TEMPLATE)).result(binding)
     end

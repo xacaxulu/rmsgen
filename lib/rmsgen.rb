@@ -24,6 +24,8 @@ module Rmsgen
       link
       imap_polnote_group
       fs_polnote_group
+      polnote_group
+
   }.each do |fname|
     require File.join(File.dirname(__FILE__), 'rmsgen', fname)
   end
