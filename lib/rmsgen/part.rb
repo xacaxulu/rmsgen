@@ -4,7 +4,7 @@ module Rmsgen
     TOKEN_PARTS = {
       /^http/ => Rmsgen::Parts::Url,
       /Return-Path:/ => Rmsgen::Parts::Header,
-      /\[Link/ => Rmsgen::Parts::PolnoteUrlRequest,
+      /\[Link/i => Rmsgen::Parts::PolnoteUrlRequest,
       /Dr Richard Stallman/ => Rmsgen::Parts::Footer,
       /^   / => Rmsgen::Parts::IndentedLine,
       /^For.*week.*$/ => Rmsgen::Parts::Duration

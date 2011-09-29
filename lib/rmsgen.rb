@@ -22,6 +22,7 @@ module Rmsgen
       runtime
       part
       link
+      imap_client
       imap_polnote_group
       fs_polnote_group
       polnote_group

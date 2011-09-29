@@ -1,30 +1,14 @@
 module Rmsgen
   class IMAPPolnoteGroup
-    require 'net/imap'
 
-    attr_reader :note_ids
-
-    def initialize(options={})
-      @imap_options = options
-      @login  = options['imap_login']
-      @password = options['imap_password']
-      @note_ids = init_note_ids || []
+    def initialize(imap_client)
+      @imap_client = imap_client
     end
 
     def all
-      fetch_notes
-    end
-
-    def fetch_notes
-      authenticate
-      follow_inbox
-      find_all_from_rms
-    end
-
-    def init_note_ids
-      authenticate
-      follow_inbox
-      search_for_notes
+      @imap_client.fetch_polnote_messages_from_inbox do |body, id|
+        Polnote.new :body => body, :id => id
+      end
     end
 
     def find(id)
@@ -33,43 +17,21 @@ module Rmsgen
     end
 
     def archive_polnote(id)
+      @imap_client.authenticate 
       follow_inbox
       move_to_archives(id)
     end
 
     private
-
+    
     def move_to_archives(id)
-      imap.copy id.to_i, 'INBOX.old-messages' 
-      imap.store(id.to_i, "+FLAGS", [:Deleted])
-      imap.expunge
-    end
-
-    def search_for_notes(&block)
-      imap.search(["FROM", 'rms@gnu.org'],&block)
-    end
-
-    def imap
-      @imap ||= Net::IMAP.new(@imap_options['imap_server'])
-    end
-
-    def authenticate
-      imap.authenticate 'LOGIN', @login, @password 
+      @imap_client.copy id.to_i, 'INBOX.old-messages' 
+      @imap_client.store(id.to_i, "+FLAGS", [:Deleted])
+      @imap_client.expunge
     end
 
     def follow_inbox
-      imap.select 'INBOX' 
-    end
-
-    def find_all_from_rms
-      @note_ids.map { |id| fetch_message_body(id) }
-    end
-
-    def fetch_message_body(id)
-      fetch_result = imap.fetch id, 'RFC822' 
-      if fetch_result && fetch_result.any?
-        fetch_result[0].attr['RFC822']
-      end
+      @imap_client.select 'INBOX' 
     end
   end
 end

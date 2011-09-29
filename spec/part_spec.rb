@@ -21,27 +21,31 @@ end
 describe Rmsgen::Part do
   context 'parse' do
     it 'detects a url' do
-      Rmsgen::Part.parse('http').should be_instance_of(Rmsgen::Parts::Url)
+      subject.parse('http').should be_instance_of(Rmsgen::Parts::Url)
     end
 
     it 'detects the headers' do
-      Rmsgen::Part.parse('Return-Path:').should be_instance_of(Rmsgen::Parts::Header)
+      subject.parse('Return-Path:').should be_instance_of(Rmsgen::Parts::Header)
     end
 
     it 'detects an indented line' do
-      Rmsgen::Part.parse('   hello world').should be_instance_of(Rmsgen::Parts::IndentedLine)
+      subject.parse('   hello world').should be_instance_of(Rmsgen::Parts::IndentedLine)
     end
 
     it 'detects a duration' do
-      Rmsgen::Part.parse('For one week').should be_instance_of(Rmsgen::Parts::Duration)
+      subject.parse('For one week').should be_instance_of(Rmsgen::Parts::Duration)
     end
 
     it 'detects plain text' do
-      Rmsgen::Part.parse('bla blah blah').should be_instance_of(Rmsgen::Parts::PlainText)
+      subject.parse('bla blah blah').should be_instance_of(Rmsgen::Parts::PlainText)
     end
 
     it 'detects a polnote url request' do
-      Rmsgen::Part.parse('[Link to a polnote]').should be_instance_of(Rmsgen::Parts::PolnoteUrlRequest)
+      subject.parse('[Link to a polnote]').should be_instance_of(Rmsgen::Parts::PolnoteUrlRequest)
+    end
+
+    it 'detects a downcased polnote url request' do
+      subject.parse('[link').should be_instance_of(Rmsgen::Parts::PolnoteUrlRequest) 
     end
   end
 end

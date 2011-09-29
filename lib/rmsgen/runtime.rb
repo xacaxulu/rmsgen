@@ -1,12 +1,11 @@
 module Rmsgen
   class Runtime
-   
+
     def initialize(config)
       @config = config
       raise "Ensure you have populated a config file" unless @config
       @output = config['output_file']
-      @source_directory_or_imap_options = polnote_source
-      @notes = fetch_notes 
+      @notes = PolnoteGroup.fetch(polnote_source)
       run!
     end
 
@@ -22,19 +21,8 @@ module Rmsgen
 
     private
 
-    def write(note)
-      if @output
-        File.open(@output, 'a') do |file|
-          file.puts note.to_html
-        end
-      else
-        puts note.to_html
-        puts
-      end
-    end
-
     def polnote_source
-      @config['email_dir'] || imap_options
+      @config['email_dir'] || Rmsgen::IMAPClient.new(imap_options)
     end
 
     def imap_options  
@@ -45,8 +33,15 @@ module Rmsgen
       }
     end
 
-    def fetch_notes
-      PolnoteGroup.fetch(@source_directory_or_imap_options)
+    def write(note)
+      if @output
+        File.open(@output, 'a') do |file|
+          file.puts note.to_html
+        end
+      else
+        puts note.to_html
+        puts
+      end
     end
   end
 end

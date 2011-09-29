@@ -9,9 +9,9 @@ module Rmsgen
     private
 
     def self.group(source)
-      if source.is_a?(String)
-        Rmsgen::FsPolnoteGroup.new(source) 
-      elsif source.is_a?(Hash)
+      case source
+      when String then Rmsgen::FsPolnoteGroup.new(source) 
+      else
         Rmsgen::IMAPPolnoteGroup.new(source)
       end
     end
